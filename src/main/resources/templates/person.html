@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<title>Person Information</title>
+	</head>
+	
+	<body>
+		<div>
+			<h2>Personal Information</h2>
+			<form>
+				<label for="name">Name : </label>
+				<input type="text" id="name" name="name"><br></br>
+				<label for="age">Age : </label>
+				<input type="number" id="age" name="age"><br><br>
+				<button type="button" onclick="submitForm()">Submit</button>
+			</form>
+			
+			<h2>Added Person Information</h2>
+			<p id="addedPerson"></p>
+		</div>
+		
+		<script>
+			function submitForm(){
+				const name = document.getElementById("name").value;
+				const age = document.getElementById("age").value;
+				
+				fetch('/person', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({name, age})
+				}).then(response => response.json())
+				.then(data => {
+					document.getElementById('addedPerson').textContent=`Name : ${data.name}, Age : ${data.age}`;
+				});
+			}
+		</script>
+	</body>
+</html>
